@@ -1,158 +1,358 @@
-export default function PremiumHomePage() {
+"use client";
+
+import React, { useState } from "react";
+import Link from "next/link";
+
+const MOCK_TRIPS = [
+  {
+    id: "trip-1",
+    origin: "تهران (ترمینال غرب)",
+    destination: "اصفهان (ترمینال کاوه)",
+    company: "سیر و سفر",
+    busType: "VIP تخت‌شو ۲+۱",
+    departureTime: "۰۸:۳۰",
+    arrivalTime: "۱۴:۰۰",
+    price: 240000,
+    availableSeats: 9,
+    rating: 4.8,
+  },
+  {
+    id: "trip-2",
+    origin: "تهران (ترمینال بیهقی)",
+    destination: "مشهد (ترمینال امام رضا)",
+    company: "ایران پیما",
+    busType: "VIP مانیتوردار",
+    departureTime: "۱۹:۱۵",
+    arrivalTime: "۰۷:۰۰",
+    price: 410000,
+    availableSeats: 4,
+    rating: 4.6,
+  },
+  {
+    id: "trip-3",
+    origin: "تهران (ترمینال جنوب)",
+    destination: "شیراز (ترمینال کاراندیش)",
+    company: "همسفر چابکسواران",
+    busType: "VIP تخت‌شو ویژه",
+    departureTime: "۲۱:۰۰",
+    arrivalTime: "۰۹:۳۰",
+    price: 390000,
+    availableSeats: 12,
+    rating: 4.9,
+  },
+  {
+    id: "trip-4",
+    origin: "تهران (ترمینال غرب)",
+    destination: "تبریز (ترمینال مرکزی)",
+    company: "رویال سفر",
+    busType: "کلاسیک ۴۴ نفره",
+    departureTime: "۲۲:۳۰",
+    arrivalTime: "۰۶:۳۰",
+    price: 195000,
+    availableSeats: 18,
+    rating: 4.4,
+  },
+];
+
+export default function FullBusLandingPage() {
+  const [activeFaq, setActiveFaq] = useState<number | null>(0);
+  const [searchForm, setSearchForm] = useState({
+    origin: "تهران",
+    destination: "اصفهان",
+    date: "1403/06/15",
+  });
+
+  const toggleFaq = (index) => {
+    setActiveFaq(activeFaq === index ? null : index);
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 font-sans dir-rtl" dir="rtl">
+    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans antialiased" dir="rtl">
       
-      {/* --- HEADER: Glassmorphism Style --- */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+      {/* 1. HEADER */}
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between py-4">
           <div className="flex items-center gap-8">
-            <div className="text-2xl font-black bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              BUS-GO
-            </div>
-            <nav className="hidden md:flex gap-6 text-sm font-medium text-gray-600">
-              <a href="#" className="hover:text-blue-600 transition">بلیط اتوبوس</a>
-              <a href="#" className="hover:text-blue-600 transition">بلیط هواپیما</a>
-              <a href="#" className="hover:text-blue-600 transition">پیشنهادات ویژه</a>
+            <Link href="/" className="flex items-center gap-2">
+              <span className="bg-orange-500 text-white p-2 rounded-xl text-lg font-bold">🚌</span>
+              <span className="text-xl font-black text-slate-900 tracking-tight">
+                مستر<span className="text-orange-500">بلیط</span>
+              </span>
+            </Link>
+            <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
+              <Link href="#" className="text-orange-500 font-bold">بلیت اتوبوس</Link>
+              <Link href="#" className="hover:text-slate-900 transition">بلیت قطار</Link>
+              <Link href="#" className="hover:text-slate-900 transition">بلیت هواپیما</Link>
+              <Link href="#" className="hover:text-slate-900 transition">رزرو هتل</Link>
+              <Link href="#" className="hover:text-slate-900 transition">راهنمای سفر</Link>
             </nav>
           </div>
-          <div className="flex gap-4 items-center">
-            <button className="text-sm font-semibold text-gray-700 px-4 py-2">ورود / ثبت‌نام</button>
-            <button className="bg-blue-600 text-white text-sm font-bold px-6 py-2.5 rounded-full shadow-lg shadow-blue-200 hover:bg-blue-700 transition">
-              پنل کاربری
+
+          <div className="flex items-center gap-3">
+            <button className="text-sm font-bold text-slate-700 hover:text-orange-500 px-4 py-2 transition">
+              ورود مسافران
+            </button>
+            <button className="text-sm font-bold bg-orange-500 hover:bg-orange-600 text-white px-5 py-2.5 rounded-xl shadow-md shadow-orange-200 transition">
+              ثبت‌نام سریع
             </button>
           </div>
         </div>
       </header>
 
-      {/* --- HERO SECTION: Modern Search Engine --- */}
-      <section className="relative pt-20 pb-32 overflow-hidden bg-[#0f172a]">
-        {/* Background Decoration (Circles/Glow) */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/20 blur-[120px] rounded-full"></div>
-          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-600/20 blur-[120px] rounded-full"></div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
-          <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-6 tracking-tight">
-            سفر خود را <span className="text-blue-400">هوشمندانه</span> شروع کنید
+      {/* 2. HERO & SEARCH */}
+      <section className="relative bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white pt-14 pb-24 px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto text-center">
+          <span className="inline-block bg-orange-500/20 text-orange-400 text-xs font-bold px-4 py-1.5 rounded-full border border-orange-500/30 mb-4">
+            سامانه جامع رزرو آنلاین بلیت اتوبوس
+          </span>
+          <h1 className="text-3xl sm:text-5xl font-extrabold mb-4 leading-tight">
+            خرید آنلاین بلیت اتوبوس به سراسر کشور
           </h1>
-          <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-12">
-            بهترین قیمت‌ها، سریع‌ترین مسیرها و راحت‌ترین رزرو بلیط اتوبوس در دستان شماست.
+          <p className="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto mb-10">
+            مقایسه آنلاین شرکت‌های اتوبوس‌رانی، انتخاب شماره صندلی دلخواه و استرداد ۱۰۰٪ آنلاین
           </p>
 
-          {/* --- SEARCH CARD: The "Bus Booking" Look --- */}
-          <div className="bg-white p-2 md:p-4 rounded-[2rem] shadow-2xl shadow-black/50 max-w-5xl mx-auto border border-white/10">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-2">
-              
-              {/* From */}
-              <div className="md:col-span-3 relative group">
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-600 transition">
-                  📍
-                </div>
-                <input 
-                  type="text" 
-                  placeholder="مبدا" 
-                  className="w-full py-5 pr-12 pl-4 bg-gray-50 rounded-2xl text-gray-800 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition"
+          {/* Search Box */}
+          <div className="bg-white text-slate-800 p-4 sm:p-6 rounded-2xl shadow-2xl border border-slate-100 text-right">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-slate-500 mb-1">مبدا</label>
+                <input
+                  type="text"
+                  value={searchForm.origin}
+                  onChange={(e) => setSearchForm({ ...searchForm, origin: e.target.value })}
+                  className="w-full bg-slate-100 border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-semibold outline-none focus:ring-2 focus:ring-orange-500"
                 />
               </div>
 
-              {/* Swap Button (Decorative) */}
-              <div className="hidden md:flex md:col-span-1 items-center justify-center">
-                <button className="bg-blue-50 text-blue-600 p-2 rounded-full hover:rotate-180 transition-all duration-500">
-                  ⇄
+              <div>
+                <label className="block text-xs font-bold text-slate-500 mb-1">مقصد</label>
+                <input
+                  type="text"
+                  value={searchForm.destination}
+                  onChange={(e) => setSearchForm({ ...searchForm, destination: e.target.value })}
+                  className="w-full bg-slate-100 border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-semibold outline-none focus:ring-2 focus:ring-orange-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-500 mb-1">تاریخ حرکت</label>
+                <input
+                  type="text"
+                  value={searchForm.date}
+                  onChange={(e) => setSearchForm({ ...searchForm, date: e.target.value })}
+                  className="w-full bg-slate-100 border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-semibold outline-none focus:ring-2 focus:ring-orange-500"
+                />
+              </div>
+
+              <div className="flex items-end">
+                <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2.5 px-4 rounded-xl transition shadow-md shadow-orange-500/30">
+                  جستجوی بلیت
                 </button>
               </div>
-
-              {/* To */}
-              <div className="md:col-span-3 relative group">
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-600 transition">
-                  🏁
-                </div>
-                <input 
-                  type="text" 
-                  placeholder="مقصد" 
-                  className="w-full py-5 pr-12 pl-4 bg-gray-50 rounded-2xl text-gray-800 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition"
-                />
-              </div>
-
-              {/* Date */}
-              <div className="md:col-span-3 relative group">
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-600 transition">
-                  📅
-                </div>
-                <input 
-                  type="date" 
-                  className="w-full py-5 pr-12 pl-4 bg-gray-50 rounded-2xl text-gray-800 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition appearance-none"
-                />
-              </div>
-
-              {/* Search Button */}
-              <div className="md:col-span-2">
-                <button className="w-full h-full py-5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-2xl shadow-lg shadow-blue-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all">
-                  جستجو
-                </button>
-              </div>
-
             </div>
           </div>
         </div>
       </section>
 
-      {/* --- CONTENT SECTION (Placeholder) --- */}
-      <section className="max-w-7xl mx-auto px-6 py-24">
-        <div className="flex justify-between items-end mb-12">
-          <div>
-            <h2 className="text-3xl font-bold text-gray-900">پرطرفدارترین مسیرها</h2>
-            <p className="text-gray-500 mt-2">بر اساس جستجوی کاربران در هفته اخیر</p>
+      {/* 3. FEATURED TRIPS (TRIP CARDS) */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 -mt-10 mb-16 relative z-10">
+        <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 pb-4 border-b border-slate-100 gap-2">
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-900">سفرهای پیشنهادی و پرتردد</h2>
+              <p className="text-xs sm:text-sm text-slate-500 mt-1">بهترین گزینه‌های حرکت برای امروز و فردا</p>
+            </div>
+            <span className="text-xs bg-emerald-50 text-emerald-700 font-bold px-3 py-1.5 rounded-lg border border-emerald-200">
+              تضمین کمترین قیمت
+            </span>
           </div>
-          <button className="text-blue-600 font-semibold hover:underline">مشاهده همه</button>
+
+          <div className="grid grid-cols-1 gap-4">
+            {MOCK_TRIPS.map((trip) => (
+              <div
+                key={trip.id}
+                className="flex flex-col lg:flex-row items-start lg:items-center justify-between p-5 bg-slate-50/80 hover:bg-slate-50 border border-slate-200 rounded-2xl transition hover:shadow-md gap-4"
+              >
+                <div className="flex items-center gap-4 w-full lg:w-auto">
+                  <div className="w-12 h-12 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-xl shrink-0">
+                    🚌
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-bold text-slate-900">{trip.company}</h3>
+                      <span className="text-[11px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-medium">
+                        {trip.busType}
+                      </span>
+                    </div>
+                    <div className="text-xs text-slate-500 mt-1 flex items-center gap-2">
+                      <span>{trip.origin}</span>
+                      <span>←</span>
+                      <span>{trip.destination}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between sm:justify-center gap-8 w-full lg:w-auto border-t lg:border-t-0 pt-3 lg:pt-0 border-slate-200">
+                  <div className="text-center">
+                    <span className="block text-xs text-slate-400">ساعت حرکت</span>
+                    <span className="font-bold text-slate-800 text-base">{trip.departureTime}</span>
+                  </div>
+                  <div className="text-center">
+                    <span className="block text-xs text-slate-400">رسیدن به مقصد</span>
+                    <span className="font-bold text-slate-800 text-base">{trip.arrivalTime}</span>
+                  </div>
+                  <div className="text-center">
+                    <span className="block text-xs text-slate-400">صندلی خالی</span>
+                    <span className="font-bold text-emerald-600 text-sm">{trip.availableSeats} صندلی</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between lg:justify-end gap-4 w-full lg:w-auto border-t lg:border-t-0 pt-3 lg:pt-0 border-slate-200">
+                  <div className="text-right lg:text-left">
+                    <span className="text-xs text-slate-400 block">قیمت هر صندلی</span>
+                    <span className="text-lg font-black text-slate-900">
+                      {trip.price.toLocaleString("fa-IR")} <span className="text-xs font-normal text-slate-500">تومان</span>
+                    </span>
+                  </div>
+                  <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm px-5 py-2.5 rounded-xl transition shadow-sm">
+                    انتخاب صندلی
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="h-64 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition-shadow duration-300 p-6">
-               <div className="w-full h-32 bg-gray-100 rounded-2xl mb-4"></div>
-               <div className="h-4 w-3/4 bg-gray-100 rounded mb-2"></div>
-               <div className="h-4 w-1/2 bg-gray-100 rounded"></div>
+      </section>
+
+      {/* 4. HOW IT WORKS */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl font-extrabold text-slate-900">مراحل ساده خرید بلیت</h2>
+          <p className="text-slate-500 text-sm mt-1">تنها در ۳ مرحله بلیت خود را دریافت کنید</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            { step: "۱", title: "جستجوی مسیر", desc: "مبدا، مقصد و تاریخ سفر خود را انتخاب کرده و لیست سرویس‌ها را مقایسه کنید." },
+            { step: "۲", title: "انتخاب صندلی", desc: "از روی نقشه اتوبوس، صندلی دلخواه تکی یا دوبل را مشخص کنید." },
+            { step: "۳", title: "صدور آنی بلیت", desc: "پس از پرداخت امن، پیامک و لینک دانلود بلیت فوراً برای شما ارسال می‌شود." },
+          ].map((item, idx) => (
+            <div key={idx} className="bg-white p-6 rounded-2xl border border-slate-200 text-center relative">
+              <span className="w-10 h-10 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold text-lg mx-auto mb-4">
+                {item.step}
+              </span>
+              <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
+              <p className="text-xs text-slate-500 leading-relaxed">{item.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* --- FOOTER: Minimal & Clean --- */}
-      <footer className="bg-white border-t border-gray-100 pt-16 pb-8">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-          <div className="col-span-1 md:col-span-1">
-            <div className="text-2xl font-black text-blue-600 mb-6">BUS-GO</div>
-            <p className="text-gray-500 text-sm leading-relaxed">
-              تجربه سفر متفاوت با تکنولوژی روز. ما اینجا هستیم تا مسیر شما را کوتاه و لذت‌بخش کنیم.
-            </p>
+      {/* 5. FEATURES / WHY CHOOSE US */}
+      <section className="bg-slate-100 py-14">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl font-extrabold text-slate-900">چرا ما را انتخاب کنید؟</h2>
+            <p className="text-slate-500 text-sm mt-1">امکانات ویژه برای تجربه یک سفر بی‌دغدغه</p>
           </div>
-          <div>
-            <h4 className="font-bold text-gray-900 mb-6">درباره ما</h4>
-            <ul className="space-y-4 text-sm text-gray-500">
-              <li><a href="#" className="hover:text-blue-600">شرایط و قوانین</a></li>
-              <li><a href="#" className="hover:text-blue-600">سوالات متداول</a></li>
-              <li><a href="#" className="hover:text-blue-600">تماس با ما</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-bold text-gray-900 mb-6">پشتیبانی</h4>
-            <ul className="space-y-4 text-sm text-gray-500">
-              <li><a href="#" className="hover:text-blue-600">مرکز کمک</a></li>
-              <li><a href="#" className="hover:text-blue-600">وضعیت بلیط</a></li>
-              <li><a href="#" className="hover:text-blue-600">گزارش خطا</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-bold text-gray-900 mb-6">خبرنامه</h4>
-            <div className="flex gap-2">
-              <input type="text" placeholder="ایمیل شما" className="bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 text-sm w-full outline-none focus:border-blue-500" />
-              <button className="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm">ثبت</button>
-            </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { icon: "⚡", title: "استرداد ۱۰۰٪ آنلاین", desc: "کنسلی بلیت بدون مراجعه حضوری با کمترین جریمه" },
+              { icon: "🛡️", title: "پشتیبانی ۲۴ ساعته", desc: "پاسخگویی در تمام ساعات شبانه‌روز حتی روزهای تعطیل" },
+              { icon: "🚌", title: "تمام تعاونی‌های کشور", desc: "پوشش سراسری تمامی شرکت‌های معتبر اتوبوس‌رانی" },
+              { icon: "📱", title: "ارسال آنی پیامک بلیت", desc: "دریافت اطلاعات سفر و شماره صندلی بلافاصله پس از خرید" },
+            ].map((f, i) => (
+              <div key={i} className="bg-white p-6 rounded-2xl border border-slate-200/80 hover:shadow-md transition text-right">
+                <span className="text-3xl mb-3 block">{f.icon}</span>
+                <h3 className="font-bold text-slate-900 mb-1.5">{f.title}</h3>
+                <p className="text-xs text-slate-500 leading-relaxed">{f.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
-        <div className="max-w-7xl mx-auto px-6 pt-8 border-t border-gray-50 text-center text-gray-400 text-xs">
-          © ۱۴۰۳ تمامی حقوق برای BUS-GO محفوظ است. طراحی شده با ❤️ برای مسافران.
+      </section>
+
+      {/* 6. FAQ SECTION */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-16">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl font-extrabold text-slate-900">سوالات متداول مسافران</h2>
+          <p className="text-slate-500 text-sm mt-1">پاسخ به سوالات پرتکرار شما</p>
+        </div>
+
+        <div className="space-y-3">
+          {[
+            {
+              q: "چگونه بلیت خریداری شده را استرداد یا کنسل کنم؟",
+              a: "کافیست وارد بخش پیگیری خرید شوید، شماره همراه و کد پیگیری را وارد کرده و با یک کلیک درخواست استرداد را ثبت کنید. مبلغ طی چند ساعت به حسابتان بازمی‌گردد.",
+            },
+            {
+              q: "آیا برای سوار شدن به اتوبوس چاپ بلیت کاغذی الزامی است؟",
+              a: "خیر، پیامک حاوی شماره بلیت و شماره صندلی که پس از خرید دریافت می‌کنید، برای سوار شدن به اتوبوس در ترمینال کافی است.",
+            },
+            {
+              q: "حداکثر میزان بار مجاز برای هر مسافر چقدر است؟",
+              a: "طبق قوانین سازمان راهداری، هر مسافر مجاز به حمل ۲۰ کیلوگرم بار در قسمت بار اتوبوس است.",
+            },
+            {
+              q: "آیا امکان انتخاب جنسیت صندلی‌های مجاور وجود دارد؟",
+              a: "بله، در نقشه صندلی‌ها وضعیت صندلی‌های پر شده توسط آقایان یا بانوان مشخص شده تا بتوانید با خیال آسوده خرید کنید.",
+            },
+          ].map((faq, i) => (
+            <div key={i} className="bg-white border border-slate-200 rounded-xl overflow-hidden">
+              <button
+                onClick={() => toggleFaq(i)}
+                className="w-full text-right p-4 font-bold text-slate-800 flex justify-between items-center hover:bg-slate-50 transition"
+              >
+                <span>{faq.q}</span>
+                <span className="text-slate-400 text-lg">{activeFaq === i ? "−" : "+"}</span>
+              </button>
+              {activeFaq === i && (
+                <div className="p-4 pt-0 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 bg-slate-50/50">
+                  {faq.a}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 7. FOOTER */}
+      <footer className="bg-slate-900 text-slate-400 pt-12 pb-8 border-t border-slate-800 text-right">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
+            <div className="md:col-span-2">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="bg-orange-500 text-white p-1.5 rounded-lg text-sm">🚌</span>
+                <span className="text-xl font-bold text-white">سامانه بلیت اتوبوس کشور</span>
+              </div>
+              <p className="text-xs leading-relaxed max-w-md text-slate-400">
+                ارائه‌دهنده معتبرترین سرویس‌های سفر بین‌شهری با همکاری تمامی ترمینال‌ها و تعاونی‌های مجاز کشور. خرید امن و آسان با پشتیبانی تمام‌وقت.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="text-sm font-bold text-white mb-3">دسترسی سریع</h4>
+              <ul className="space-y-2 text-xs">
+                <li><Link href="#" className="hover:text-white transition">پیگیری و استرداد بلیت</Link></li>
+                <li><Link href="#" className="hover:text-white transition">قوانین و مقررات خرید</Link></li>
+                <li><Link href="#" className="hover:text-white transition">پرسش‌های متداول</Link></li>
+                <li><Link href="#" className="hover:text-white transition">درباره ما</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-sm font-bold text-white mb-3">تماس و پشتیبانی</h4>
+              <p className="text-xs mb-2">تلفن پشتیبانی: ۰۲۱-۸۸۸۸۸۸۸۸</p>
+              <p className="text-xs mb-2">پاسخگویی ۲۴ ساعته در ۷ روز هفته</p>
+              <p className="text-xs">ایمیل: support@mrticket.ir</p>
+            </div>
+          </div>
+
+          <div className="border-t border-slate-800 pt-6 text-center text-xs text-slate-500">
+            © {new Date().getFullYear()} تمامی حقوق برای سامانه رزرو بلیت مسافرتی محفوظ است.
+          </div>
         </div>
       </footer>
 
