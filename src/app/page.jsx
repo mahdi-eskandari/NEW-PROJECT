@@ -54,8 +54,8 @@ const MOCK_TRIPS = [
   },
 ];
 
-export default function FullBusLandingPage() {
-  const [activeFaq, setActiveFaq] = useState<number | null>(0);
+export default function HomePage() {
+  const [activeFaq, setActiveFaq] = useState(0);
   const [searchForm, setSearchForm] = useState({
     origin: "تهران",
     destination: "اصفهان",
@@ -249,7 +249,7 @@ export default function FullBusLandingPage() {
         </div>
       </section>
 
-      {/* 5. FEATURES / WHY CHOOSE US */}
+      {/* 5. FEATURES */}
       <section className="bg-slate-100 py-14">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
@@ -274,7 +274,7 @@ export default function FullBusLandingPage() {
         </div>
       </section>
 
-      {/* 6. FAQ SECTION */}
+      {/* 6. FAQ */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 py-16">
         <div className="text-center mb-10">
           <h2 className="text-2xl font-extrabold text-slate-900">سوالات متداول مسافران</h2>
@@ -302,6 +302,7 @@ export default function FullBusLandingPage() {
           ].map((faq, i) => (
             <div key={i} className="bg-white border border-slate-200 rounded-xl overflow-hidden">
               <button
+                type="button"
                 onClick={() => toggleFaq(i)}
                 className="w-full text-right p-4 font-bold text-slate-800 flex justify-between items-center hover:bg-slate-50 transition"
               >
